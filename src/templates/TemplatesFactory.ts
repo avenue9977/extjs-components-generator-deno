@@ -1,23 +1,19 @@
+import { COMPONENT_TYPE } from '../component/Component.ts'
+
 export class TemplatesFactory {
-  constructor(private pathName: string) {
-    console.log(`TemplatesFactory: ${pathName}`);
-  }
+  constructor(public pathName: string) {}
 
   async getComponentOptions() {
-    const choices: string[] = [];
+    const choices: COMPONENT_TYPE[] = [];
 
     try {
       for await (const dirEntry of Deno.readDir(this.pathName)) {
-        choices.push(this.capitalize(dirEntry.name));
+        choices.push(dirEntry.name as COMPONENT_TYPE);
       }
     } catch (_) {
       throw Error(`Could not find template directory`);
     }
 
     return choices;
-  }
-
-  private capitalize(str: string): string {
-    return str.charAt(0).toUpperCase() + str.slice(1);
   }
 }

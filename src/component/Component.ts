@@ -1,11 +1,28 @@
 import input from "@inquirer/input";
 import select from "@inquirer/select";
 import confirm from "@inquirer/confirm";
+import {join} from "jsr:@std/path";
 import { TemplatesFactory } from '../templates/TemplatesFactory.ts'
 import { ComponentValidator } from './ComponentValidator.ts'
 
+export enum COMPONENT_TYPE {
+  VIEW = "view",
+  MIXIN = "mixin",
+  MODEL = "model",
+  STORE = "store",
+  NONE = "",
+}
+
+export enum VIEW_CONFIG_OPTION {
+  CONTROLLER = "controller",
+  VIEW_MODEL = "viewModel",
+  STYLES = "styles",
+}
+
+export type ViewConfig = Record<VIEW_CONFIG_OPTION, boolean>;
+
 export class Component {
-  #type = "";
+  #type: COMPONENT_TYPE = COMPONENT_TYPE.NONE;
   #name = "";
   #location = ""
   #controller = false;
@@ -21,7 +38,7 @@ export class Component {
     return this.#type;
   }
 
-  set type(value: string) {
+  set type(value: COMPONENT_TYPE) {
     this.#type = value;
   }
 
@@ -62,10 +79,10 @@ export class Component {
   }
 
   set location(value: string) {
-    this.#location = `/app/${this.type.toLowerCase()}/${value}`;
+    this.#location = `/app/${this.type}/${value}`;
   }
 
-  async pickType() {
+  async selectType() {
     const choices = await this.templatesFactory
       .getComponentOptions()
       .catch((error) => {
@@ -115,6 +132,23 @@ export class Component {
       message: "Add a styles file?",
       default: true,
     });
+  }
+
+  public getViewConfig(): ViewConfig | null {
+    if (this.type === COMPONENT_TYPE.VIEW) {
+      return {
+        controller: this.controller,
+        viewModel: this.viewModel,
+        styles: this.styles,
+      }
+    }
+
+    return null
+  }
+
+  public getTemplatePath(): string {
+    const dirname = this.templatesFactory.pathName;
+    return join(dirname, this.type);
   }
 
   private transformLocationValue(input: string) {
