@@ -1,9 +1,7 @@
-import confirm from '@inquirer/confirm';
-import input from '@inquirer/input';
-import select from '@inquirer/select';
-import { join } from 'jsr:@std/path';
-import TemplatesFactory from '../templates/TemplatesFactory.ts';
-import ComponentValidator from './ComponentValidator.ts';
+import confirm from '@inquirer/confirm'
+import input from '@inquirer/input'
+import select from '@inquirer/select'
+import ComponentValidator from './ComponentValidator.ts'
 
 export enum COMPONENT_TYPE {
 	VIEW = 'view',
@@ -19,122 +17,112 @@ export enum VIEW_CONFIG_OPTION {
 	STYLES = 'styles',
 }
 
-export type ViewConfig = Record<VIEW_CONFIG_OPTION, boolean>;
+export type ViewConfig = Record<VIEW_CONFIG_OPTION, boolean>
 
 export default class Component {
-	#type: COMPONENT_TYPE = COMPONENT_TYPE.NONE;
-	#name = '';
-	#location = '';
-	#controller = false;
-	#viewModel = false;
-	#styles = false;
+	#type: COMPONENT_TYPE = COMPONENT_TYPE.NONE
+	#name = ''
+	#location = ''
+	#controller = false
+	#viewModel = false
+	#styles = false
 
 	constructor(
 		private applicationName: string,
-		private templatesFactory: TemplatesFactory,
-		private componentValidator: ComponentValidator,
+		private validator: ComponentValidator,
 	) {}
 
 	get type() {
-		return this.#type;
+		return this.#type
 	}
 
 	set type(value: COMPONENT_TYPE) {
-		this.#type = value;
+		this.#type = value
 	}
 
 	get name() {
-		return this.#name;
+		return this.#name
 	}
 
 	set name(value: string) {
-		this.#name = value;
+		this.#name = value
 	}
 
 	get controller() {
-		return this.#controller;
+		return this.#controller
 	}
 
 	set controller(value: boolean) {
-		this.#controller = value;
+		this.#controller = value
 	}
 
 	get viewModel() {
-		return this.#viewModel;
+		return this.#viewModel
 	}
 
 	set viewModel(value: boolean) {
-		this.#viewModel = value;
+		this.#viewModel = value
 	}
 
 	get styles() {
-		return this.#styles;
+		return this.#styles
 	}
 
 	set styles(value: boolean) {
-		this.#styles = value;
+		this.#styles = value
 	}
 
 	get location() {
-		return this.#location;
+		return this.#location
 	}
 
 	set location(value: string) {
-		this.#location = `/app/${this.type}/${value}`;
+		this.#location = `/app/${this.type}/${value}`
 	}
 
 	async selectType() {
-		const choices = await this.templatesFactory
-			.getComponentOptions()
-			.catch((error) => {
-				console.error(error.message);
-				Deno.exit(1);
-			});
-
 		this.type = await select({
 			message: 'What type of component would you like to generate?',
-			choices: choices,
-		});
+			choices: ['mixin', 'model', 'store', 'view'],
+		})
 	}
 
 	async askName() {
 		this.name = await input({
 			message: 'Component name:',
 			required: true,
-			validate: (answer) => this.componentValidator.validateName(answer),
-		});
+			validate: (answer) => this.validator.validateName(answer),
+		})
 	}
 
 	async askLocation() {
 		this.location = await input({
 			message: 'Component location (path):',
 			required: true,
-			validate: (answer) =>
-				this.componentValidator.validateLocation(answer),
-			transformer: (answer: string) =>
-				this.transformLocationValue(answer),
-		});
+			validate: (answer) => this.validator.validateLocation(answer),
+			transformer: (answer: string) => this.transformLocationValue(answer),
+		})
 	}
 
 	async confirmController() {
 		this.controller = await confirm({
 			message: 'Add a Controller file?',
 			default: true,
-		});
+		})
 	}
 
 	async confirmViewModel() {
 		this.viewModel = await confirm({
 			message: 'Add a ViewModel file?',
 			default: true,
-		});
+		})
 	}
 
 	async confirmStyles() {
 		this.styles = await confirm({
 			message: 'Add a styles file?',
 			default: true,
-		});
+		})
 	}
 
 	public getViewConfig(): ViewConfig | null {
@@ -143,20 +131,16 @@ export default class Component {
 				controller: this.controller,
 				viewModel: this.viewModel,
 				styles: this.styles,
-			};
+			}
 		}
 
-		return null;
-	}
-
-	public getTemplatePath(): string {
-		return join(this.templatesFactory.pathName, this.type);
+		return null
 	}
 
 	private transformLocationValue(input: string) {
-		const prefix = `/app/${this.type.toLowerCase()}/`;
-		const isLastInput = input.startsWith(prefix);
+		const prefix = `/app/${this.type.toLowerCase()}/`
+		const isLastInput = input.startsWith(prefix)
 
-		return isLastInput ? input : prefix + input;
+		return isLastInput ? input : prefix + input
 	}
 }
