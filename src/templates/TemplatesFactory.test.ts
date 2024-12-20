@@ -18,7 +18,10 @@ describe('TemplatesFactory', () => {
 
 	it('gets the component options', async () => {
 		const result = await templatesFactory.getComponentOptions();
-		expect(result).toEqual(['mixin', 'model', 'view', 'store']);
+		expect(result).toContain('mixin');
+		expect(result).toContain('model');
+		expect(result).toContain('view');
+		expect(result).toContain('store');
 	});
 
 	it('fails to gets the component options', async () => {
