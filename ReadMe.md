@@ -23,7 +23,7 @@ A CLI tool built with Deno to generate ExtJS components based on user input.
    ```
 
 2. Navigate to the project directory:
-    ```bash
+   ```bash
    cd extjs-components-generator-deno
    ```
 
@@ -31,15 +31,19 @@ A CLI tool built with Deno to generate ExtJS components based on user input.
    ```bash
    deno run --allow-env --allow-read --allow-write --allow-run ./src/main.ts
    ```
-   
+
 ## Usage
 
 ### Interactive Mode
+
 Run the CLI in interactive mode to generate a new ExtJS component:
-   ```bash
-      deno run --allow-env --allow-read --allow-write --allow-run ./src/main.ts
-   ```
+
+```bash
+deno run --allow-env --allow-read --allow-write --allow-run ./src/main.ts
+```
+
 You’ll be prompted to provide details such as:
+
 - Component type (view, controller, model)
 - Component name
 - Component location
@@ -49,27 +53,30 @@ Command-Line Arguments
 
 You can also pass arguments directly for a more automated process:
 
-   ```bash
-      deno run --allow-read --allow-write --allow-env ./src/main.ts --name MyApplicationName 
-   ```
+```bash
+deno run --allow-read --allow-write --allow-env ./src/main.ts --name MyApplicationName
+```
+
 Available options:
+
 - `--name`: Name of your application.
 
 ### Build using Docker
 
-   ```bash
-      docker build -t ext-generator .
-   ```
+```bash
+docker build -t ext-generator .
+```
 
 ### Run from Docker container
 
-   ```bash
-      docker run -it -v $(pwd):/app/app ext-generator
-   ```
+```bash
+docker run -it -v $(pwd):/app/app ext-generator
+```
 
 ### File Structure
 
 The generated files will follow this structure:
+
 ```
 app/
 ├── view/
@@ -81,9 +88,11 @@ app/
 ```
 
 ### Configuration
+
 You can customize the templates by modifying the files in the `src/resources/templates/` directory. These templates define the structure and content of the generated components.
 
 ### License
+
 his project is licensed under the [MIT](https://choosealicense.com/licenses/mit/) License.
 
 Built with ❤️ using Deno.
