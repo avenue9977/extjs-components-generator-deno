@@ -10,3 +10,4 @@
 *.swp
 
 /app/**
+/coverage/**

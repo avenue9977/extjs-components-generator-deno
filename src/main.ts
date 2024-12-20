@@ -1,9 +1,9 @@
 import { parseArgs } from "@std/cli";
 import * as path from "jsr:@std/path";
-import { Component, COMPONENT_TYPE } from "./component/Component.ts";
-import { ComponentValidator } from "./component/ComponentValidator.ts";
-import { Generator } from "./generator/Generator.ts";
-import { TemplatesFactory } from "./templates/TemplatesFactory.ts";
+import Component, { COMPONENT_TYPE } from "./component/Component.ts";
+import ComponentValidator from "./component/ComponentValidator.ts";
+import Generator from "./generator/Generator.ts";
+import TemplatesFactory from "./templates/TemplatesFactory.ts";
 
 if (import.meta.main) {
   const { name: appName } = parseArgs(Deno.args, {

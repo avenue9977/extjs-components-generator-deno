@@ -1,6 +1,6 @@
 import { COMPONENT_TYPE } from '../component/Component.ts'
 
-export class TemplatesFactory {
+export default class TemplatesFactory {
   constructor(public pathName: string) {}
 
   async getComponentOptions() {
@@ -11,7 +11,7 @@ export class TemplatesFactory {
         choices.push(dirEntry.name as COMPONENT_TYPE);
       }
     } catch (_) {
-      throw Error(`Could not find template directory`);
+      throw Error("Could not find template directory");
     }
 
     return choices;

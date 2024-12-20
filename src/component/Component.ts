@@ -1,9 +1,9 @@
+import confirm from "@inquirer/confirm";
 import input from "@inquirer/input";
 import select from "@inquirer/select";
-import confirm from "@inquirer/confirm";
-import {join} from "jsr:@std/path";
-import { TemplatesFactory } from '../templates/TemplatesFactory.ts'
-import { ComponentValidator } from './ComponentValidator.ts'
+import { join } from "jsr:@std/path";
+import TemplatesFactory from "../templates/TemplatesFactory.ts";
+import ComponentValidator from "./ComponentValidator.ts";
 
 export enum COMPONENT_TYPE {
   VIEW = "view",
@@ -21,19 +21,19 @@ export enum VIEW_CONFIG_OPTION {
 
 export type ViewConfig = Record<VIEW_CONFIG_OPTION, boolean>;
 
-export class Component {
+export default class Component {
   #type: COMPONENT_TYPE = COMPONENT_TYPE.NONE;
   #name = "";
-  #location = ""
+  #location = "";
   #controller = false;
   #viewModel = false;
   #styles = false;
 
   constructor(
-      private applicationName: string,
-      private templatesFactory: TemplatesFactory,
-      private componentValidator: ComponentValidator,
-      ) {}
+    private applicationName: string,
+    private templatesFactory: TemplatesFactory,
+    private componentValidator: ComponentValidator,
+  ) {}
 
   get type() {
     return this.#type;
@@ -52,27 +52,27 @@ export class Component {
   }
 
   get controller() {
-    return this.#controller
+    return this.#controller;
   }
 
   set controller(value: boolean) {
-    this.#controller = value
+    this.#controller = value;
   }
 
   get viewModel() {
-    return this.#viewModel
+    return this.#viewModel;
   }
 
   set viewModel(value: boolean) {
-    this.#viewModel = value
+    this.#viewModel = value;
   }
 
   get styles() {
-    return this.#styles
+    return this.#styles;
   }
 
   set styles(value: boolean) {
-    this.#styles = value
+    this.#styles = value;
   }
 
   get location() {
@@ -141,15 +141,14 @@ export class Component {
         controller: this.controller,
         viewModel: this.viewModel,
         styles: this.styles,
-      }
+      };
     }
 
-    return null
+    return null;
   }
 
   public getTemplatePath(): string {
-    const dirname = this.templatesFactory.pathName;
-    return join(dirname, this.type);
+    return join(this.templatesFactory.pathName, this.type);
   }
 
   private transformLocationValue(input: string) {

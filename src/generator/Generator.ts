@@ -1,6 +1,6 @@
 import * as path from "jsr:@std/path";
 import * as ejs from 'npm:ejs';
-import { Component, COMPONENT_TYPE, VIEW_CONFIG_OPTION } from '../component/Component.ts'
+import Component, { COMPONENT_TYPE, VIEW_CONFIG_OPTION } from '../component/Component.ts'
 
 interface TemplateData {
     xtype: string
@@ -13,7 +13,7 @@ interface TemplateData {
     userCls?: string
 }
 
-export class Generator {
+export default class Generator {
     constructor(private component: Component) {}
 
     private static createTemplateLocationString(input: string): string {
