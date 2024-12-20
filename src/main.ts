@@ -6,6 +6,12 @@ import Generator from './generator/Generator.ts'
 import Template from './templates/Template.ts'
 
 if (import.meta.main) {
+	const status = Deno.permissions.requestSync({ name: "write" });
+	if (status.state === "denied") {
+		console.log("%cERROR: Write permission denied", "color: red");
+		Deno.exit(1)
+	}
+
 	const { name: appName } = parseArgs(Deno.args, {
 		string: ['name', 'n'],
 		alias: {

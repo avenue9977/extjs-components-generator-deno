@@ -55,6 +55,18 @@ You can also pass arguments directly for a more automated process:
 Available options:
 - `--name`: Name of your application.
 
+### Build using Docker
+
+   ```bash
+      docker build -t ext-generator .
+   ```
+
+### Run from Docker container
+
+   ```bash
+      docker run -it -v $(pwd):/app/app ext-generator
+   ```
+
 ### File Structure
 
 The generated files will follow this structure:
