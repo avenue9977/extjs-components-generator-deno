@@ -7,6 +7,7 @@
     "@inquirer/input": "npm:@inquirer/input@^4.1.0",
     "@inquirer/select": "npm:@inquirer/select@^4.0.3",
     "@std/assert": "jsr:@std/assert@1",
+    "@std/cli": "jsr:@std/cli@^1.0.9",
     "ejs": "npm:ejs@^3.1.10"
   }
 }

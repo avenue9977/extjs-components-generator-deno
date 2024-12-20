@@ -30,6 +30,7 @@ export class Component {
   #styles = false;
 
   constructor(
+      private applicationName: string,
       private templatesFactory: TemplatesFactory,
       private componentValidator: ComponentValidator,
       ) {}
