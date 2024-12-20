@@ -19,7 +19,7 @@ A CLI tool built with Deno to generate ExtJS components based on user input.
 
 1. Clone this repository:
    ```bash
-   git clone https://github.com/yourusername/extjs-components-generator.git
+   git clone https://github.com/avenue9977/extjs-components-generator-deno.git
    ```
 
 2. Navigate to the project directory:
